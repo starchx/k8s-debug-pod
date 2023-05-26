@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-debug-pod
+  namespace: default
+  labels:
+    app: k8s-debug-pod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-debug-pod
+  template:
+    metadata:
+      labels:
+        app: k8s-debug-pod
+    spec:
+      containers:
+      - name: k8s-debug-pod
+        image: starchx/k8s-debug-pod
+        command:
+        - sleep
+        - "infinity"
+        volumeMounts:
+        - name: host
+          mountPath: /host
+      volumes:
+        - name: host
+          hostPath:
+            path: /
+            type: Directory
